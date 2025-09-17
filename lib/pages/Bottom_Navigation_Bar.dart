@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turisamapp/pages/Local_service_package/search_page.dart';
+import '../adharAuth/ProfilePage.dart';
 import 'Home_Page.dart';
 
 class MainPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _MainPageState extends State<MainPage> {
     HomePage(),
     SearchPage(),
     HomePage(),//NotificationPage(),
-    HomePage(),// each of these has its own Scaffold + AppBar
+    ProfilePage(),// each of these has its own Scaffold + AppBar
 
   ];
 
