@@ -14,7 +14,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> pages = [
     HomePage(),
     HomePage(),
-    NotificationPage(),
+    HomePage(),//NotificationPage(),
     HomePage(),// each of these has its own Scaffold + AppBar
 
   ];
@@ -22,7 +22,6 @@ class _MainPageState extends State<MainPage> {
   void onTap(int idx) {
     setState(() {
       _selectedIdx = idx;
-      ShowSnakBar(context, "खूप मस्ती रे तुला अजून नाही add केले काही.");
     });
   }
 

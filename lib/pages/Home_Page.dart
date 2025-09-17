@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:turisamapp/drawer_main/drawer.dart';
 import '../Utils/Colors.dart';
 import '../Utils/Constants/constants.dart';
+import 'FeedBack_Page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,13 +23,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MainDrawer() ,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu, size: 25),
-          onPressed: () {
-            ShowSnakBar(context, "खूप मस्ती रे तुला अजून नाही add केले काही.");
-          },
-        ),
+
         title: Text(
           "Home",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: appTitleSize),
@@ -41,10 +39,10 @@ class _HomePageState extends State<HomePage> {
             child: IconButton(
               icon: Icon(Icons.person_4_sharp, size: 30),
               onPressed: () {
-                ShowSnakBar(
-                  context,
-                  "खूप मस्ती रे तुला अजून नाही add केले काही.",
-                );
+                // ShowSnakBar(
+                //   context,
+                //   " ",
+                // );
               },
             ),
           ),
@@ -58,31 +56,34 @@ class _HomePageState extends State<HomePage> {
             // Search Controller >>>>>>>>>>>>>>
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: SearchController,
-                decoration: InputDecoration(
-                  hintText: "Search...",
-                  prefixIcon: Icon(Icons.search), // search icon at the start
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+              child: SizedBox(
+                height: 45,
+                child: TextFormField(
+                  controller: SearchController,
+                  decoration: InputDecoration(
+                    hintText: "Search...",
+                    prefixIcon: Icon(Icons.search), // search icon at the start
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: Colors.teal,
+                        width: 2,
+                      ), // highlight on focus
+                    ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: Colors.teal,
-                      width: 2,
-                    ), // highlight on focus
-                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter something to search';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {});
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter something to search';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {});
-                },
               ),
             ),
             // Below search bar filters
@@ -96,35 +97,35 @@ class _HomePageState extends State<HomePage> {
                     CustomContainer(
                       icon: Icons.filter_alt,
                       text: "All     ",
-                      height: 40,
+                      height: 37,
                       color: Colors.blueGrey.shade300,
                       borderRadius: 20,
                     ),
                     CustomContainer(
                       icon: Icons.group,
                       text: "Culture",
-                      height: 40,
+                      height: 37,
                       color: Colors.blueGrey.shade300,
                       borderRadius: 20,
                     ),
                     CustomContainer(
                       icon: Icons.attach_money,
                       text: "Budget",
-                      height: 40,
+                      height: 37,
                       color: Colors.blueGrey.shade300,
                       borderRadius: 20,
                     ),
                     CustomContainer(
                       icon: Icons.event,
                       text: "Events",
-                      height: 40,
+                      height: 37,
                       color: Colors.blueGrey.shade300,
                       borderRadius: 20,
                     ), // new one
                     CustomContainer(
                       icon: Icons.location_on,
                       text: "Location",
-                      height: 40,
+                      height: 37,
                       color: Colors.blueGrey.shade300,
                       borderRadius: 20,
                     ),
@@ -316,14 +317,35 @@ class _HomePageState extends State<HomePage> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 6),
-                            Text(
-                              "₹ 250",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.teal,
-                              ),
-                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "₹ 250",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                                TextButton(onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => FeedbackPage(
+                                        title: "Pizza",
+                                        imagePath: "assets/images/Food.png",
+                                        price: 299,
+                                        description: "A delightful dish loaded with rich, gooey cheese that melts in your mouth. Perfectly seasoned and cooked to perfection, offering a comforting and satisfying flavor that everyone will love.",
+                                        rating: 4.5,
+                                      ),
+                                    ),
+                                  );
+
+                                }, child: Text("View",style: TextStyle(fontSize: 17),))
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -379,14 +401,35 @@ class _HomePageState extends State<HomePage> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 6),
-                            Text(
-                              "₹ 300",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.teal,
-                              ),
-                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "₹ 300",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                                TextButton(onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => FeedbackPage(
+                                        title: "Spicy Curry",
+                                        imagePath: "assets/images/SpiceCurry.png",
+                                        price: 299,
+                                        description: "Rich flavors with a perfect balance of spices, offering an authentic taste of traditional cuisine. Every dish is carefully prepared using fresh local ingredients, giving you a unique and memorable dining experience that reflects the culture and heritage of the region.",
+                                        rating: 4.5,
+                                      ),
+                                    ),
+                                  );
+
+                                }, child: Text("View",style: TextStyle(fontSize: 17),))
+                              ],
+                            )
+,
                           ],
                         ),
                       ),
@@ -416,10 +459,10 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   InkWell(
                     onTap: () {
-                      ShowSnakBar(
-                        context,
-                        "खूप मस्ती रे तुला अजून नाही add केले काही.",
-                      );
+                      // ShowSnakBar(
+                      //   context,
+                      //   "",
+                      // );
                     },
                     child: CustomCategoriesContainer(
                       icon: Icons.group,
@@ -431,10 +474,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                   InkWell(
                     onTap: () {
-                      ShowSnakBar(
-                        context,
-                        "खूप मस्ती रे तुला अजून नाही add केले काही.",
-                      );
+                      // ShowSnakBar(
+                      //   context,
+                      //   "",
+                      // );
                     },
                     child: CustomCategoriesContainer(
                       icon: Icons.restaurant,
@@ -462,18 +505,18 @@ class _HomePageState extends State<HomePage> {
                       color: Color(0xFFFFF3D4),
                     ),
                     onTap: () {
-                      ShowSnakBar(
-                        context,
-                        "खूप मस्ती रे तुला अजून नाही add केले काही.",
-                      );
+                      // ShowSnakBar(
+                      //   context,
+                      //   "",
+                      // );
                     },
                   ),
                   InkWell(
                     onTap: () {
-                      ShowSnakBar(
-                        context,
-                        "खूप मस्ती रे तुला अजून नाही add केले काही.",
-                      );
+                      // ShowSnakBar(
+                      //   context,
+                      //   "",
+                      // );
                     },
                     child: CustomCategoriesContainer(
                       icon: Icons.hiking,
