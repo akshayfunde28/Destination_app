@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../Utils/Colors.dart';
+import 'Local_service_package/Payment_integration.dart';
 
 class FeedbackPage extends StatefulWidget {
   final String title;
@@ -22,9 +24,11 @@ class FeedbackPage extends StatefulWidget {
 }
 
 class _FeedbackPageState extends State<FeedbackPage> {
-
   @override
   Widget build(BuildContext context) {
+    int fullStars = widget.rating.floor();
+    bool hasHalfStar = (widget.rating - fullStars) >= 0.5;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -33,7 +37,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: Colors.teal,
+        backgroundColor: appBarColor,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -52,41 +56,35 @@ class _FeedbackPageState extends State<FeedbackPage> {
             ),
             const SizedBox(height: 16),
 
-            /// TITLE + LOCATION
+            /// TITLE
             Text(
               widget.title,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 6),
-            Row(
-              children: const [
-                Icon(Icons.location_on, color: Colors.grey, size: 18),
-                SizedBox(width: 4),
-                Text(
-                  "Jaipur, Rajasthan",
-                  style: TextStyle(fontSize: 14, color: Colors.black54),
-                ),
-              ],
-            ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
 
             /// RATING
             Row(
               children: [
                 Row(
-                  children: List.generate(
-                    5,
-                        (index) => Icon(
-                      index < widget.rating ? Icons.star : Icons.star_border,
-                      color: Colors.amber,
-                      size: 18,
-                    ),
-                  ),
+                  children: List.generate(5, (index) {
+                    if (index < fullStars) {
+                      return const Icon(Icons.star,
+                          color: Colors.amber, size: 18);
+                    } else if (index == fullStars && hasHalfStar) {
+                      return const Icon(Icons.star_half,
+                          color: Colors.amber, size: 18);
+                    } else {
+                      return const Icon(Icons.star_border,
+                          color: Colors.amber, size: 18);
+                    }
+                  }),
                 ),
                 const SizedBox(width: 6),
                 Text("(${widget.rating.toStringAsFixed(1)})",
-                    style: const TextStyle(fontSize: 14, color: Colors.black54))
+                    style:
+                    const TextStyle(fontSize: 14, color: Colors.black54)),
               ],
             ),
 
@@ -94,7 +92,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
             /// PRICE
             Text(
-              "USD ${widget.price.toStringAsFixed(2)} / person",
+              "RS ${widget.price.toStringAsFixed(2)} / person",
               style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -103,63 +101,30 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
             const SizedBox(height: 16),
 
-            /// DESCRIPTION (highlighted box)
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                widget.description,
-                style: const TextStyle(fontSize: 15, color: Colors.black87),
+            /// DESCRIPTION
+            Text(
+              "Description",
+              style: TextStyle(
+                fontSize: 20,         // bigger text
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
             ),
 
-            const SizedBox(height: 20),
+            Text(
+              widget.description,
+              style: const TextStyle(fontSize: 15, color: Colors.black87),
+            ),
 
-            /// WHAT'S INCLUDED
-            const Text(
-              "What's Included",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                ListTile(
-                  leading: Icon(Icons.map, color: Colors.teal),
-                  title: Text("Guided market tour"),
-                  contentPadding: EdgeInsets.zero,
-                ),
-                ListTile(
-                  leading: Icon(Icons.fastfood, color: Colors.teal),
-                  title: Text("Street food tasting"),
-                  contentPadding: EdgeInsets.zero,
-                ),
-                ListTile(
-                  leading: Icon(Icons.restaurant, color: Colors.teal),
-                  title: Text("Hands-on cooking class"),
-                  contentPadding: EdgeInsets.zero,
-                ),
-                ListTile(
-                  leading: Icon(Icons.check_circle, color: Colors.teal),
-                  title: Text("All ingredients provided"),
-                  contentPadding: EdgeInsets.zero,
-                ),
-                ListTile(
-                  leading: Icon(Icons.dinner_dining, color: Colors.teal),
-                  title: Text("Traditional meal tasting"),
-                  contentPadding: EdgeInsets.zero,
-                ),
-              ],
-            ),
+            const SizedBox(height: 24),
+
+            /// HOST SECTION (with icon instead of photo)
             Container(
               margin: const EdgeInsets.symmetric(vertical: 12),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                // color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: Colors.grey,width: 1),
+                border: Border.all(color: Colors.teal, width: 1),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.white30,
@@ -173,25 +138,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 children: [
                   Row(
                     children: [
-                      /// HOST PHOTO
-                      CircleAvatar(
-                        radius: 34,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(40),
-                          child: Image.asset(
-                            "assets/images/Akshay.png", // host image path
-                            width: 70,
-                            height: 70,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      Icon(Icons.person, size: 50, color: appBarColor),
                       const SizedBox(width: 12),
-
-                      /// HOST INFO
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             "Akshay Funde", // host name
                             style: TextStyle(
@@ -202,27 +153,30 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           SizedBox(height: 4),
                           Text(
                             "Local Guide & Food Expert",
-                            style: TextStyle(fontSize: 14, color: Colors.black54),
+                            style:
+                            TextStyle(fontSize: 14, color: Colors.black54),
                           ),
                         ],
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 12),
 
-                  /// CONTACT BUTTON (separate row below photo+name)
+                  /// CONTACT BUTTON
                   Align(
                     alignment: Alignment.center,
-
                     child: ElevatedButton.icon(
-
                       onPressed: () {
+
                       },
-                      icon: const Icon(Icons.phone, size: 18,color: Colors.white),
-                      label: const Text("Contact",style: TextStyle(color: Colors.white),),
+                      icon: const Icon(Icons.phone,
+                          size: 18, color: Colors.white),
+                      label: const Text(
+                        "Contact",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
+                        backgroundColor: appBarColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -232,12 +186,15 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 ],
               ),
             ),
+
+            /// BOOK NOW BUTTON
             SizedBox(
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle booking action here
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(money: widget.price)));
+                  // Handle booking action
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal,
@@ -255,11 +212,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 ),
               ),
             )
-
-
           ],
         ),
       ),
     );
   }
 }
+

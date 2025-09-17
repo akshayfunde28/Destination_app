@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turisamapp/drawer_main/drawer.dart';
+import 'package:turisamapp/pages/Local_service_package/search_page.dart';
 import '../Utils/Colors.dart';
 import '../Utils/Constants/constants.dart';
 import 'FeedBack_Page.dart';
@@ -33,20 +34,20 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         // centers the title
         backgroundColor: appBarColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: IconButton(
-              icon: Icon(Icons.person_4_sharp, size: 30),
-              onPressed: () {
-                // ShowSnakBar(
-                //   context,
-                //   " ",
-                // );
-              },
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.all(10.0),
+        //     child: IconButton(
+        //       icon: Icon(Icons.person_4_sharp, size: 30),
+        //       onPressed: () {
+        //         // ShowSnakBar(
+        //         //   context,
+        //         //   " ",
+        //         // );
+        //       },
+        //     ),
+        //   ),
+        // ],
       ),
 
       body: SingleChildScrollView(
@@ -54,86 +55,87 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             // Search Controller >>>>>>>>>>>>>>
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 45,
-                child: TextFormField(
-                  controller: SearchController,
-                  decoration: InputDecoration(
-                    hintText: "Search...",
-                    prefixIcon: Icon(Icons.search), // search icon at the start
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Colors.teal,
-                        width: 2,
-                      ), // highlight on focus
+            InkWell(
+            onTap: () {
+      Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SearchPage()),
+      );
+      },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            height: 45,
+            child: IgnorePointer(
+              child: TextFormField(
+                controller: SearchController,
+                decoration: InputDecoration(
+                  hintText: "Search...",
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Colors.teal,
+                      width: 2,
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter something to search';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    setState(() {});
-                  },
                 ),
               ),
             ),
+          ),
+        ),
+      ),
             // Below search bar filters
-            SizedBox(
-              width: MediaQuery.of(context).size.width, // full screen width
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CustomContainer(
-                      icon: Icons.filter_alt,
-                      text: "All     ",
-                      height: 37,
-                      color: Colors.blueGrey.shade300,
-                      borderRadius: 20,
-                    ),
-                    CustomContainer(
-                      icon: Icons.group,
-                      text: "Culture",
-                      height: 37,
-                      color: Colors.blueGrey.shade300,
-                      borderRadius: 20,
-                    ),
-                    CustomContainer(
-                      icon: Icons.attach_money,
-                      text: "Budget",
-                      height: 37,
-                      color: Colors.blueGrey.shade300,
-                      borderRadius: 20,
-                    ),
-                    CustomContainer(
-                      icon: Icons.event,
-                      text: "Events",
-                      height: 37,
-                      color: Colors.blueGrey.shade300,
-                      borderRadius: 20,
-                    ), // new one
-                    CustomContainer(
-                      icon: Icons.location_on,
-                      text: "Location",
-                      height: 37,
-                      color: Colors.blueGrey.shade300,
-                      borderRadius: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width, // full screen width
+            //   child: SingleChildScrollView(
+            //     scrollDirection: Axis.horizontal,
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //       children: [
+            //         CustomContainer(
+            //           icon: Icons.filter_alt,
+            //           text: "All     ",
+            //           height: 37,
+            //           color: Colors.blueGrey.shade300,
+            //           borderRadius: 20,
+            //         ),
+            //         CustomContainer(
+            //           icon: Icons.group,
+            //           text: "Culture",
+            //           height: 37,
+            //           color: Colors.blueGrey.shade300,
+            //           borderRadius: 20,
+            //         ),
+            //         CustomContainer(
+            //           icon: Icons.attach_money,
+            //           text: "Budget",
+            //           height: 37,
+            //           color: Colors.blueGrey.shade300,
+            //           borderRadius: 20,
+            //         ),
+            //         CustomContainer(
+            //           icon: Icons.event,
+            //           text: "Events",
+            //           height: 37,
+            //           color: Colors.blueGrey.shade300,
+            //           borderRadius: 20,
+            //         ), // new one
+            //         CustomContainer(
+            //           icon: Icons.location_on,
+            //           text: "Location",
+            //           height: 37,
+            //           color: Colors.blueGrey.shade300,
+            //           borderRadius: 20,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+// Images of Culture
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
@@ -250,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                             image: const DecorationImage(
                               image: AssetImage(
-                                "assets/images/GoutamiPatil.png", // 👈 your manual image
+                                "assets/images/Diwali.png", // 👈 your manual image
                               ),
                               fit: BoxFit.cover, // cover full container
                             ),
@@ -457,34 +459,32 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      // ShowSnakBar(
-                      //   context,
-                      //   "",
-                      // );
-                    },
-                    child: CustomCategoriesContainer(
-                      icon: Icons.group,
-                      text: "Culture & Arts",
-                      width: 200,
-                      height: 120,
-                      color: Color(0xFFE8EAFF),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+
+                      },
+                      child: CustomCategoriesContainer(
+                        icon: Icons.group,
+                        text: "Culture & Arts",
+                        width: 200,
+                        height: 120,
+                        color: Color(0xFFE8EAFF),
+                      ),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      // ShowSnakBar(
-                      //   context,
-                      //   "",
-                      // );
-                    },
-                    child: CustomCategoriesContainer(
-                      icon: Icons.restaurant,
-                      text: "Food & Drinks",
-                      width: 200,
-                      height: 120,
-                      color: Color(0xFFFAE8FF),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+
+                      },
+                      child: CustomCategoriesContainer(
+                        icon: Icons.restaurant,
+                        text: "Food & Drinks",
+                        width: 200,
+                        height: 120,
+                        color: Color(0xFFFAE8FF),
+                      ),
                     ),
                   ),
                 ],
@@ -496,34 +496,32 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    child: CustomCategoriesContainer(
-                      icon: Icons.landscape,
-                      text: "Nature & Outdoors",
-                      width: 200,
-                      height: 120,
-                      color: Color(0xFFFFF3D4),
+                  Expanded(
+                    child: InkWell(
+                      child: CustomCategoriesContainer(
+                        icon: Icons.landscape,
+                        text: "Nature & Outdoors",
+                        width: 200,
+                        height: 120,
+                        color: Color(0xFFFFF3D4),
+                      ),
+                      onTap: () {
+
+                      },
                     ),
-                    onTap: () {
-                      // ShowSnakBar(
-                      //   context,
-                      //   "",
-                      // );
-                    },
                   ),
-                  InkWell(
-                    onTap: () {
-                      // ShowSnakBar(
-                      //   context,
-                      //   "",
-                      // );
-                    },
-                    child: CustomCategoriesContainer(
-                      icon: Icons.hiking,
-                      text: "Adventure",
-                      width: 200,
-                      height: 120,
-                      color: Color(0xFFD4E4FF),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+
+                      },
+                      child: CustomCategoriesContainer(
+                        icon: Icons.hiking,
+                        text: "Adventure",
+                        width: 200,
+                        height: 120,
+                        color: Color(0xFFD4E4FF),
+                      ),
                     ),
                   ),
                 ],

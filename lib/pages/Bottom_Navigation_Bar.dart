@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turisamapp/pages/testpage.dart';
-import '../Utils/Constants/constants.dart';
+import 'package:turisamapp/pages/Local_service_package/search_page.dart';
 import 'Home_Page.dart';
 
 class MainPage extends StatefulWidget {
@@ -13,7 +12,7 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> pages = [
     HomePage(),
-    HomePage(),
+    SearchPage(),
     HomePage(),//NotificationPage(),
     HomePage(),// each of these has its own Scaffold + AppBar
 
