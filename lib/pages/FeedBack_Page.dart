@@ -1,221 +1,209 @@
 import 'package:flutter/material.dart';
 
-import '../Utils/Colors.dart';
-import 'Local_service_package/Payment_integration.dart';
+import 'Bottom_Navigation_Bar.dart';
+
 
 class FeedbackPage extends StatefulWidget {
-  final String title;
-  final String imagePath;
-  final double price;
-  final String description;
-  final double rating;
-
-  const FeedbackPage({
-    super.key,
-    required this.title,
-    required this.imagePath,
-    required this.price,
-    required this.description,
-    required this.rating,
-  });
+  const FeedbackPage({Key? key}) : super(key: key);
 
   @override
-  State<FeedbackPage> createState() => _FeedbackPageState();
+  _FeedbackPageState createState() => _FeedbackPageState();
 }
 
 class _FeedbackPageState extends State<FeedbackPage> {
+  // Checkbox states
+  bool appCrashes = false;
+  bool gpsTracking = false;
+  bool slowPerformance = false;
+  bool otherIssue = false;
+
+  // Controller for comment box
+  final TextEditingController _commentController = TextEditingController();
+
+  // Selected emoji index
+  int selectedEmoji = -1;
+
+  // Emoji list
+  final List<String> emojis = ["😡", "😕", "😊", "😍"];
+
+  void _submitFeedback() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // prevent closing instantly
+      builder: (context) {
+        // Auto close after 1 second
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.of(context).pop(); // close dialog
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>MainPage()));
+        });
+
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(
+                Icons.verified,
+                color: Color(0xFF20C9A5),
+                size: 50,
+              ),
+              SizedBox(height: 10),
+              Text(
+                "Feedback Submitted!",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Color(0xFF20C9A5),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    int fullStars = widget.rating.floor();
-    bool hasHalfStar = (widget.rating - fullStars) >= 0.5;
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Experience Details",
-          style: TextStyle(
-              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
-        ),
+        title: const Text("Feedback"),
+        backgroundColor: const Color(0xFF20C9A5),
         centerTitle: true,
-        backgroundColor: appBarColor,
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// IMAGE
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                widget.imagePath,
-                width: double.infinity,
-                height: 220,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            /// TITLE
-            Text(
-              widget.title,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 6),
-
-            /// RATING
-            Row(
-              children: [
-                Row(
-                  children: List.generate(5, (index) {
-                    if (index < fullStars) {
-                      return const Icon(Icons.star,
-                          color: Colors.amber, size: 18);
-                    } else if (index == fullStars && hasHalfStar) {
-                      return const Icon(Icons.star_half,
-                          color: Colors.amber, size: 18);
-                    } else {
-                      return const Icon(Icons.star_border,
-                          color: Colors.amber, size: 18);
-                    }
-                  }),
-                ),
-                const SizedBox(width: 6),
-                Text("(${widget.rating.toStringAsFixed(1)})",
-                    style:
-                    const TextStyle(fontSize: 14, color: Colors.black54)),
-              ],
-            ),
-
-            const SizedBox(height: 12),
-
-            /// PRICE
-            Text(
-              "RS ${widget.price.toStringAsFixed(2)} / person",
-              style: const TextStyle(
-                  fontSize: 18,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title
+              const Text(
+                "How was your Experience 😊",
+                style: TextStyle(
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.teal),
-            ),
-
-            const SizedBox(height: 16),
-
-            /// DESCRIPTION
-            Text(
-              "Description",
-              style: TextStyle(
-                fontSize: 20,         // bigger text
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                  color: Color(0xFF20C9A5),
+                ),
               ),
-            ),
+              const SizedBox(height: 16),
 
-            Text(
-              widget.description,
-              style: const TextStyle(fontSize: 15, color: Colors.black87),
-            ),
+              // Emoji row (clickable)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(emojis.length, (index) {
+                  final bool isSelected = selectedEmoji == index;
 
-            const SizedBox(height: 24),
-
-            /// HOST SECTION (with icon instead of photo)
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 12),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: Colors.teal, width: 1),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.white30,
-                    blurRadius: 6,
-                    offset: Offset(2, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.person, size: 50, color: appBarColor),
-                      const SizedBox(width: 12),
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Akshay Funde", // host name
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            "Local Guide & Food Expert",
-                            style:
-                            TextStyle(fontSize: 14, color: Colors.black54),
-                          ),
-                        ],
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedEmoji = index;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: isSelected ? const Color(0xFF20C9A5).withOpacity(0.1) : null,
+                        border: isSelected
+                            ? Border.all(color: const Color(0xFF20C9A5), width: 2)
+                            : null,
+                        borderRadius: BorderRadius.circular(50), // circular radius
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-
-                  /// CONTACT BUTTON
-                  Align(
-                    alignment: Alignment.center,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-
-                      },
-                      icon: const Icon(Icons.phone,
-                          size: 18, color: Colors.white),
-                      label: const Text(
-                        "Contact",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: appBarColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                      child: Text(
+                        emojis[index],
+                        style: const TextStyle(fontSize: 36),
                       ),
                     ),
-                  ),
-                ],
+                  );
+                }),
               ),
-            ),
 
-            /// BOOK NOW BUTTON
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage(money: widget.price)));
-                  // Handle booking action
+              const SizedBox(height: 24),
+
+              // Common issues
+              const Text(
+                "Select The Issues You've Experiences:",
+                style: TextStyle(
+                  color: Color(0xFF20C9A5),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              CheckboxListTile(
+                activeColor: const Color(0xFF20C9A5),
+                title: const Text("App Crashes"),
+                value: appCrashes,
+                onChanged: (value) {
+                  setState(() => appCrashes = value ?? false);
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  shape: RoundedRectangleBorder(
+              ),
+              CheckboxListTile(
+                activeColor: const Color(0xFF20C9A5),
+                title: const Text("GPS Tracking"),
+                value: gpsTracking,
+                onChanged: (value) {
+                  setState(() => gpsTracking = value ?? false);
+                },
+              ),
+              CheckboxListTile(
+                activeColor: const Color(0xFF20C9A5),
+                title: const Text("Slow Performance"),
+                value: slowPerformance,
+                onChanged: (value) {
+                  setState(() => slowPerformance = value ?? false);
+                },
+              ),
+              CheckboxListTile(
+                activeColor: const Color(0xFF20C9A5),
+                title: const Text("Other"),
+                value: otherIssue,
+                onChanged: (value) {
+                  setState(() => otherIssue = value ?? false);
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // Comment box
+              TextField(
+                controller: _commentController,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  labelText: "Write your feedback",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Color(0xFF20C9A5)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
-                  "Book Now",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+              ),
+              const SizedBox(height: 20),
+
+              // Submit button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF20C9A5),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: _submitFeedback,
+                  child: const Text(
+                    "Submit Feedback",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
-

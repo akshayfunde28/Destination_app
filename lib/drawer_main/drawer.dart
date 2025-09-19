@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../adharAuth/ProfilePage.dart';
+import '../adharAuth/ProfilePageOtherData/Logout.dart';
+import '../pages/FeedBack_Page.dart';
+import 'Contact_us_page.dart';
+
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
 
@@ -21,23 +26,21 @@ class MainDrawer extends StatelessWidget {
                 ],
               ),
             ),
+            Divider(),
             ListTile(
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
               },
               leading: const Icon(Icons.person_2),
               title: const Text('Profile'),
             ),
+
+
             ListTile(
               onTap: () {
                 Navigator.pop(context);
-              },
-              leading: const Icon(Icons.book),
-              title: const Text('Booking')
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>FeedbackPage()));
               },
               leading: const Icon(Icons.feedback),
               title: const Text('Feedback'),
@@ -45,13 +48,20 @@ class MainDrawer extends StatelessWidget {
             ListTile(
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ContactUsPage()),
+                );
               },
               leading: const Icon(Icons.call),
               title: const Text('Contact Us '),
             ),
             ListTile(
               onTap: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LogoutPage()),
+                );
               },
               leading: const Icon(Icons.logout),
               title: const Text('Log Out'),

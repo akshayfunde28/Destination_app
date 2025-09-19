@@ -1,7 +1,8 @@
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:turisamapp/pages/Bottom_Navigation_Bar.dart';
-import 'package:turisamapp/pages/Home_Page.dart';
-import 'package:turisamapp/pages/testpage.dart';
 
 void main() {
   runApp(const MyApp());

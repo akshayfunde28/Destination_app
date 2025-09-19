@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:turisamapp/drawer_main/drawer.dart';
 import 'package:turisamapp/pages/Local_service_package/search_page.dart';
+import '../Entity_models/item_search_page.dart';
 import '../Utils/Colors.dart';
 import '../Utils/Constants/constants.dart';
-import 'FeedBack_Page.dart';
+import '../adharAuth/ProfilePage.dart';
+import 'Service_Page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,247 +27,71 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MainDrawer() ,
+      drawer: MainDrawer(),
       appBar: AppBar(
-
         title: Text(
           "Home",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: appTitleSize),
         ),
         centerTitle: true,
-        // centers the title
         backgroundColor: appBarColor,
-        // actions: [
-        //   Padding(
-        //     padding: const EdgeInsets.all(10.0),
-        //     child: IconButton(
-        //       icon: Icon(Icons.person_4_sharp, size: 30),
-        //       onPressed: () {
-        //         // ShowSnakBar(
-        //         //   context,
-        //         //   " ",
-        //         // );
-        //       },
-        //     ),
-        //   ),
-        // ],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+              icon: Icon(Icons.person_4_sharp, size: 30),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
+              },
+            ),
+          ),
+        ],
       ),
 
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            // Search Controller >>>>>>>>>>>>>>
+            // Search bar
             InkWell(
-            onTap: () {
-      Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SearchPage()),
-      );
-      },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 45,
-            child: IgnorePointer(
-              child: TextFormField(
-                controller: SearchController,
-                decoration: InputDecoration(
-                  hintText: "Search...",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: Colors.teal,
-                      width: 2,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PlaceSearchPage()),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 45,
+                  child: IgnorePointer(
+                    child: TextFormField(
+                      controller: SearchController,
+                      decoration: InputDecoration(
+                        hintText: "Search...",
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Colors.teal,
+                            width: 2,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
-      ),
-            // Below search bar filters
-            // SizedBox(
-            //   width: MediaQuery.of(context).size.width, // full screen width
-            //   child: SingleChildScrollView(
-            //     scrollDirection: Axis.horizontal,
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //       children: [
-            //         CustomContainer(
-            //           icon: Icons.filter_alt,
-            //           text: "All     ",
-            //           height: 37,
-            //           color: Colors.blueGrey.shade300,
-            //           borderRadius: 20,
-            //         ),
-            //         CustomContainer(
-            //           icon: Icons.group,
-            //           text: "Culture",
-            //           height: 37,
-            //           color: Colors.blueGrey.shade300,
-            //           borderRadius: 20,
-            //         ),
-            //         CustomContainer(
-            //           icon: Icons.attach_money,
-            //           text: "Budget",
-            //           height: 37,
-            //           color: Colors.blueGrey.shade300,
-            //           borderRadius: 20,
-            //         ),
-            //         CustomContainer(
-            //           icon: Icons.event,
-            //           text: "Events",
-            //           height: 37,
-            //           color: Colors.blueGrey.shade300,
-            //           borderRadius: 20,
-            //         ), // new one
-            //         CustomContainer(
-            //           icon: Icons.location_on,
-            //           text: "Location",
-            //           height: 37,
-            //           color: Colors.blueGrey.shade300,
-            //           borderRadius: 20,
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-// Images of Culture
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
 
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 400, // full width
-                          height: 200, // fixed height
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 8,
-                                offset: Offset(2, 4),
-                              ),
-                            ],
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/BhartNattaym.png", // 👈 your manual image
-                              ),
-                              fit: BoxFit.cover, // cover full container
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 400, // full width
-                          height: 200, // fixed height
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 8,
-                                offset: Offset(2, 4),
-                              ),
-                            ],
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/img.png", // 👈 your manual image
-                              ),
-                              fit: BoxFit.cover, // cover full container
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 400, // full width
-                          height: 200, // fixed height
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 8,
-                                offset: Offset(2, 4),
-                              ),
-                            ],
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/Food.png", // 👈 your manual image
-                              ),
-                              fit: BoxFit.cover, // cover full container
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 400, // full width
-                          height: 200, // fixed height
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 8,
-                                offset: Offset(2, 4),
-                              ),
-                            ],
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/Nattaym2.png", // 👈 your manual image
-                              ),
-                              fit: BoxFit.cover, // cover full container
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 400, // full width
-                          height: 200, // fixed height
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                blurRadius: 8,
-                                offset: Offset(2, 4),
-                              ),
-                            ],
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/Diwali.png", // 👈 your manual image
-                              ),
-                              fit: BoxFit.cover, // cover full container
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // Auto Scroll Images
+            const AutoScrollImages(),
 
+            // Reviews Section
             Column(
               children: [
                 Row(
@@ -300,7 +127,8 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(height: 8),
                             Text(
                               "Delicious Food",
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                             Row(
                               children: List.generate(
@@ -314,12 +142,12 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Text(
                               "Amazing taste and presentation. Would definitely recommend!",
-                              style: TextStyle(fontSize: 13, color: Colors.black87),
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.black87),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 6),
-
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -331,21 +159,27 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.teal,
                                   ),
                                 ),
-                                TextButton(onPressed: (){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => FeedbackPage(
-                                        title: "Pizza",
-                                        imagePath: "assets/images/Food.png",
-                                        price: 299,
-                                        description: "A delightful dish loaded with rich, gooey cheese that melts in your mouth. Perfectly seasoned and cooked to perfection, offering a comforting and satisfying flavor that everyone will love.",
-                                        rating: 4.5,
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => FeedbackPage(
+                                          title: "Pizza",
+                                          imagePath: "assets/images/Food.png",
+                                          price: 299,
+                                          description:
+                                          "A delightful dish loaded with rich, gooey cheese that melts in your mouth. Perfectly seasoned and cooked to perfection, offering a comforting and satisfying flavor that everyone will love.",
+                                          rating: 4.5,
+                                        ),
                                       ),
-                                    ),
-                                  );
-
-                                }, child: Text("View",style: TextStyle(fontSize: 17),))
+                                    );
+                                  },
+                                  child: Text(
+                                    "View",
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                )
                               ],
                             )
                           ],
@@ -384,7 +218,8 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(height: 8),
                             Text(
                               "Spicy Curry",
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                             Row(
                               children: List.generate(
@@ -398,7 +233,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Text(
                               "Rich flavor with a perfect balance of spices.",
-                              style: TextStyle(fontSize: 13, color: Colors.black87),
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.black87),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -414,24 +250,28 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.teal,
                                   ),
                                 ),
-                                TextButton(onPressed: (){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => FeedbackPage(
-                                        title: "Spicy Curry",
-                                        imagePath: "assets/images/SpiceCurry.png",
-                                        price: 299,
-                                        description: "Rich flavors with a perfect balance of spices, offering an authentic taste of traditional cuisine. Every dish is carefully prepared using fresh local ingredients, giving you a unique and memorable dining experience that reflects the culture and heritage of the region.",
-                                        rating: 4.5,
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => FeedbackPage(
+                                          title: "Spicy Curry",
+                                          imagePath:
+                                          "assets/images/SpiceCurry.png",
+                                          price: 299,
+                                          description:
+                                          "Rich flavors with a perfect balance of spices, offering an authentic taste of traditional cuisine. Every dish is carefully prepared using fresh local ingredients, giving you a unique and memorable dining experience that reflects the culture and heritage of the region.",
+                                          rating: 4.5,
+                                        ),
                                       ),
-                                    ),
-                                  );
-
-                                }, child: Text("View",style: TextStyle(fontSize: 17),))
+                                    );
+                                  },
+                                  child: Text("View",
+                                      style: TextStyle(fontSize: 17)),
+                                )
                               ],
                             )
-,
                           ],
                         ),
                       ),
@@ -440,6 +280,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+
             // Explore categories
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13),
@@ -448,7 +289,8 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Explore Categories",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 25),
                   ),
                 ],
               ),
@@ -461,9 +303,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                       child: CustomCategoriesContainer(
                         icon: Icons.group,
                         text: "Culture & Arts",
@@ -475,9 +315,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                       child: CustomCategoriesContainer(
                         icon: Icons.restaurant,
                         text: "Food & Drinks",
@@ -505,16 +343,12 @@ class _HomePageState extends State<HomePage> {
                         height: 120,
                         color: Color(0xFFFFF3D4),
                       ),
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                     ),
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                       child: CustomCategoriesContainer(
                         icon: Icons.hiking,
                         text: "Adventure",
@@ -527,18 +361,93 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-
-
-
-
-
-
-
-
           ],
         ),
       ),
+    );
+  }
+}
 
+/// Auto Scroll Image Slider Widget
+class AutoScrollImages extends StatefulWidget {
+  const AutoScrollImages({Key? key}) : super(key: key);
+
+  @override
+  State<AutoScrollImages> createState() => _AutoScrollImagesState();
+}
+
+class _AutoScrollImagesState extends State<AutoScrollImages> {
+  late PageController _pageController;
+  int _currentPage = 0;
+  Timer? _timer;
+
+  final List<String> _images = [
+    "assets/images/BhartNattaym.png",
+    "assets/images/img.png",
+    "assets/images/Food.png",
+    "assets/images/Nattaym2.png",
+    "assets/images/Diwali.png",
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Start from a large page number so modulo works as circular
+    _pageController = PageController(initialPage: _images.length * 1000);
+    _currentPage = _images.length * 1000;
+
+    _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+      _currentPage++;
+      _pageController.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        height: 200,
+        child: PageView.builder(
+          controller: _pageController,
+          itemBuilder: (context, index) {
+            final actualIndex = index % _images.length; // circular effect
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 400,
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 8,
+                      offset: Offset(2, 4),
+                    ),
+                  ],
+                  image: DecorationImage(
+                    image: AssetImage(_images[actualIndex]),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

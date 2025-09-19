@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:turisamapp/pages/Local_service_package/search_page.dart';
+import '../Entity_models/item_search_page.dart';
+import '../Map_Integration/map_Location.dart';
 import '../adharAuth/ProfilePage.dart';
 import 'Home_Page.dart';
+import 'Local_service_package/Add_Package_Local_Page.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -13,9 +16,9 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> pages = [
     HomePage(),
-    SearchPage(),
-    HomePage(),//NotificationPage(),
-    ProfilePage(),// each of these has its own Scaffold + AppBar
+    PlaceSearchPage(),
+    MapSearchScreen(),//NotificationPage(),
+    AddPlacePage(),// add page from which local add there package
 
   ];
 
@@ -43,8 +46,8 @@ class _MainPageState extends State<MainPage> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Booking"),
-          BottomNavigationBarItem(icon: Icon(Icons.person_2), label: "Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.location_pin), label: "Location"),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
         ],
       ),
     );
